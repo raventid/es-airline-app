@@ -16,7 +16,14 @@
 
 - Where is the read and the write models in Eventide. Or they abstracted away with different approaches?
 
+- Where to store and how to organize structures (entities)? Like how should we organize booking?
+It might be a bunch of separate components. What about aggregates. Should we tailor our aggregates
+for specific views? Aggregate for client response? Aggregate for invoice?
+
+- How to debug such code? How to trace and log the execution? (Logging is solved problem, because we can log events, and if we dislike the way our information is logged we can transform it with events)
+
 ### Group of questions number 2. Questions dedicated to legacy support.
+
 Notes. Basecamp version of developing application is just write it from scratch. Really straightforward, but then we have to migrate legacy code base. This is a bit complicated. We can just write adapter for MongoDB and tell him where to take the last data snapshots and also imagine that events history is broken for previous orders, which is perfectly fine in my opinion. 
 
 # Alternatives or concepts we can still some ideas from
