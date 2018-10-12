@@ -30,6 +30,32 @@ for specific views? Aggregate for client response? Aggregate for invoice?
 
 Notes. Basecamp version of developing application is just write it from scratch. Really straightforward, but then we have to migrate legacy code base. This is a bit complicated. We can just write adapter for MongoDB and tell him where to take the last data snapshots and also imagine that events history is broken for previous orders, which is perfectly fine in my opinion. 
 
+
+
+### Flows
+
+I'm searching fare. And saving XML I've got from service in a message. So I've created a message like this
+
+```ruby
+class SearchedFare
+  attr :raw_xml
+end
+```
+
+Then, when I'm calling my system later (in reply mode) with a changed parser code (it parses much more out of :raw_xml)
+I get another message going to analytics. Like this.
+
+Before:
+
+{ price: 100 }
+
+After:
+
+{ price: 100, tax: 5 }
+
+How does this affect my system in general and should I really care about it or not?
+
+
 # Alternatives or concepts we can still some ideas from
 
 Karafka - framework for Kafka based applications.
