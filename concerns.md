@@ -26,7 +26,15 @@ for specific views? Aggregate for client response? Aggregate for invoice?
 
 - How to coordinate consistently coordinate two services? (Relates to first question). Like I need invoice confirmation and sms-gateway confirmation. If we get invoice, but failed to get sms confirmation - it's fine. If we failed to get invoice, we should stop trying to issue sms sending or if we already did it, we should spawn an event with cancellation.
 
+- What if we want to add new service and replay old messages after that. But we modified another service, so now it is __obligatory__ for it to get message from this new service to proceed (it's a coupling, but how to do this without coupling?), what to do? If I remove service it looks like I don't need to worry about it, because we can just ignore messages.
+
+
 ### Group of questions number 2. Questions dedicated to legacy support.
+
+- Integration with current transactions?
+
+- Integration with MongoDB snapshots?
+
 
 Notes. Basecamp version of developing application is just write it from scratch. Really straightforward, but then we have to migrate legacy code base. This is a bit complicated. We can just write adapter for MongoDB and tell him where to take the last data snapshots and also imagine that events history is broken for previous orders, which is perfectly fine in my opinion. 
 
