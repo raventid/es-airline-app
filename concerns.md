@@ -45,7 +45,7 @@ Notes. Basecamp version of developing application is just write it from scratch.
 
 ### Flows
 
-1.
+1. 
 
 I'm searching fare. And saving XML I've got from service in a message. So I've created a message like this
 
@@ -68,9 +68,13 @@ After:
 
 How does this affect my system in general and should I really care about it or not?
 
-2.
+2. 
 
 I have fare-calculation component. Markup values change every 5 minutes. But gds response saved in event will be here forever. When I replay events I recalculate markups and they mismatch with gds response price of ticket. (Actually our markup does not depend on gds price, they are separate, but I think we have flow like that one).
+
+3. 
+
+How to separate all actions between different types of passengers (adt, chd, inf)?
 
 # Alternatives or concepts we can still some ideas from
 
