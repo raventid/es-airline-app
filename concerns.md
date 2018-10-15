@@ -76,6 +76,10 @@ I have fare-calculation component. Markup values change every 5 minutes. But gds
 
 How to separate all actions between different types of passengers (adt, chd, inf)?
 
+4. 
+
+What if gds specific events happens on an unexpected logical step? How components should react on this.
+
 # Alternatives or concepts we can still some ideas from
 
 Karafka - framework for Kafka based applications.
