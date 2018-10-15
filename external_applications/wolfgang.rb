@@ -1,5 +1,6 @@
 require "webrick"
 require "json"
+require_relative "../global_config"
 
 class SearchFareServlet < WEBrick::HTTPServlet::AbstractServlet
   def do_GET(request, response)
@@ -40,7 +41,7 @@ class IssueTicketServlet < WEBrick::HTTPServlet::AbstractServlet
   end
 end
 
-server = WEBrick::HTTPServer.new(Port: 8081)
+server = WEBrick::HTTPServer.new(Port: WOLFGANG_EXTERNAL_APP_PORT)
 
 server.mount "/search_fare", SearchFareServlet
 server.mount "/reserving_seats", ReservingSeatsServlet
