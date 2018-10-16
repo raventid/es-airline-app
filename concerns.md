@@ -42,6 +42,12 @@ for specific views? Aggregate for client response? Aggregate for invoice?
 Notes. Basecamp version of developing application is just write it from scratch. Really straightforward, but then we have to migrate legacy code base. This is a bit complicated. We can just write adapter for MongoDB and tell him where to take the last data snapshots and also imagine that events history is broken for previous orders, which is perfectly fine in my opinion. 
 
 
+### Performance and scaling
+- What if we generate a few millions of events per day, how to scale Postgresql as a storage commponent?
+
+- How to reach high performance, while building materialized views from events (when we are rendering JSON web-response to client for example)
+
+- Event-sourcing and websockets or HTTP/2 push. How to do this? (I guess it should be straightforward because websockets and HTTP/2 are just transports and do not have any relation to materialized vies part or buisness logic part of an application)
 
 ### Flows
 
