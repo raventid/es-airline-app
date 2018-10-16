@@ -9,17 +9,17 @@ class App < Roda
 
     # GET /search_fare request
     r.on "search_fare" do
-      puts "run component responsible for search_fare"
+      puts "issue a command responsible for starting search_fare"
     end
 
     # GET /reserving_seats request
     r.on "reserving_seats" do
-      puts "run component responsible for reserving_seats"
+      puts "issue a command responsible for reserving_seats"
     end
 
     # GET /issue_ticket request
     r.on "issue_ticket" do
-      puts "run component responsible for issue_ticket"
+      puts "issue a command responsible for issue_ticket"
     end
 
     # GET /ping request

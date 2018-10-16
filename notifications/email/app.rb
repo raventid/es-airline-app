@@ -9,13 +9,6 @@ class PassengersMonitoring
       PerformEmail.new.call
     when PayForOrder
       PerformEmail.new.call
-      PerformSMS.new.call
-    end
-  end
-
-  class PerformSMS
-    def call
-      puts "Hi, this is SMS from BuyTicket"
     end
   end
 

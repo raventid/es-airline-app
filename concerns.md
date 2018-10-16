@@ -38,6 +38,8 @@ for specific views? Aggregate for client response? Aggregate for invoice?
 
 - How to run flow-spec which tests whole flow. I think we might get rid of VCR. It's just a library.
 
+- If current application is based on a state machine, how to mark those steps in state machine.
+
 
 Notes. Basecamp version of developing application is just write it from scratch. Really straightforward, but then we have to migrate legacy code base. This is a bit complicated. We can just write adapter for MongoDB and tell him where to take the last data snapshots and also imagine that events history is broken for previous orders, which is perfectly fine in my opinion. 
 
@@ -85,6 +87,12 @@ How to separate all actions between different types of passengers (adt, chd, inf
 4. 
 
 What if gds specific events happens on an unexpected logical step? How components should react on this.
+
+5. 
+
+Order is completed. Notification system sees, that order is here and trying to send confirmation,
+but in confirmation email we have to attache airline ticket, which we might like to generate with airline-ticket-component. How to wire together this kind of user story?
+
 
 # Alternatives or concepts we can still some ideas from
 
