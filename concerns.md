@@ -86,7 +86,10 @@ How to separate all actions between different types of passengers (adt, chd, inf
 
 4. 
 
-What if gds specific events happens on an unexpected logical step? How components should react on this.
+What if gds specific events happens on an unexpected logical step? How components should react on this?
+
+Solution: We might publish GDS specific Events for GDS stream, after that some GDS flow coordinator component will read this stream and think.
+Aha! This ticket is booked, but I need one more ticket to be booked to proceed, so OK, I will wait for now.
 
 5. 
 
