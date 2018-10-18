@@ -119,6 +119,23 @@ If system is already operational and running, how to inject this new flow into i
 
 now: `pay for order -> card checked and valid -> antifraud not detected -> run payment`
 
+8. 
+So we are doing flight reservation.
+
+We can do it this way:
+
+```
+get super large payload ->
+create multiple events (passengers, baggage, price) ->
+publish events ->
+dedicated services read dedicated events ->
+dedicated services perform actions and publish events
+```
+
+What is the impact of this approach?
+What if we add or remove some service (baggage)?
+What if we change event payload during program evolution?
+
 # Alternatives or concepts we can still some ideas from
 
 Karafka - framework for Kafka based applications.
