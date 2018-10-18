@@ -96,6 +96,28 @@ Aha! This ticket is booked, but I need one more ticket to be booked to proceed, 
 Order is completed. Notification system sees, that order is here and trying to send confirmation,
 but in confirmation email we have to attache airline ticket, which we might like to generate with airline-ticket-component. How to wire together this kind of user story?
 
+`order placed -> ticket issued -> email sent`
+
+`order placed -> certificate issued -> email sent -> airline informs about ticket ready -> ticket downloaded and saved on s3 -> email sent`
+
+- What if this is split?
+- Should we have coordinator process?
+
+6. 
+Monitors
+monitoring_stats/
+nds/
+
+
+7. 
+
+I want to change my system.
+
+before: `pay for order -> card checked and valid -> run payment`
+
+If system is already operational and running, how to inject this new flow into it?
+
+now: `pay for order -> card checked and valid -> antifraud not detected -> run payment`
 
 # Alternatives or concepts we can still some ideas from
 
