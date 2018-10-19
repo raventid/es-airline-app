@@ -24,6 +24,7 @@ class App
     case event
     when PaymentReceived
       result = IssueTicket.new.call
+
       if result == :success
         publish_event(TicketConfirmed.new.call)
       else
