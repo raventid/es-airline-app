@@ -2,6 +2,9 @@ require "webrick"
 require "json"
 require_relative "../global_config"
 
+# Implement:
+# Low-probability failures: malformed body, malformed value, lack of tag
+
 class SearchFareServlet < WEBrick::HTTPServlet::AbstractServlet
   def do_GET(request, response)
     puts request
