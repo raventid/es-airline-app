@@ -1,20 +1,27 @@
+class ReservationEmailSent
+  def call
+    {
+      status: "enqueued to message service"
+    }
+  end
+end
+
+class IssuingEmailSent
+  def call
+    {
+      status: "enqueued to message service"
+    }
+  end
+end
+
 class PassengersMonitoring
-  def handle(event)
-    case event
-    when SearchFare
-      # do nothing...
-    when ReserveSeats
-      # do nothing...
-    when IssueTicket
-      # do nothing...
-    when PayForOrder
-      PerformSMS.new.call
-    end
+  handle SeatsReserved do
+    send_message_to_external_service
+    publish_event(ReservationEmailSent.new.call)
   end
 
-  class PerformSMS
-    def call
-      puts "Hi, this is SMS from BuyTicket"
-    end
+  handle TicketIssued do
+    send_message_to_external_service
+    publish_event(IssuingEmailSent.new.call)
   end
 end
