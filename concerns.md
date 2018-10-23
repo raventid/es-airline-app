@@ -136,6 +136,9 @@ What is the impact of this approach?
 What if we add or remove some service (baggage)?
 What if we change event payload during program evolution?
 
+9. 
+How to work with PHI. (credit card data)
+
 # Alternatives or concepts we can still some ideas from
 
 Karafka - framework for Kafka based applications.
