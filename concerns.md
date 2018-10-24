@@ -142,7 +142,14 @@ How to work with PHI. (credit card data)
 # Alternatives or concepts we can still some ideas from
 
 Karafka - framework for Kafka based applications.
+Too basic. Kafka as a store + transport - questionable.
+
 Arkency DDD and ES stuff.
+Too Rails-oriented (in my opinion)
+
+Sequence
+Not that bad, but not as embracing as Eventide
+
 Hand-made solution based on top of dry-rb (I like this one, but it's a lot of work!)
 
 I don't care about implementation now. I care about logical and conceptual structure of an application.
