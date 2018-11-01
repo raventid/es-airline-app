@@ -139,6 +139,25 @@ What if we change event payload during program evolution?
 9. 
 How to work with PHI. (credit card data)
 
+10. 
+I have to test an order flow. I have to use special credit card to pay
+for order into GDS gate and I have to use card from 
+a user input to pay for order into acquiring gate.
+
+? Not sure
+
+OrderBooled 
+-> GDS gateway (order has been processed mister A and B)
+-> Start A with command from GDS gateway
+-> Start B with command from GDS gateway
+-> A send special card
+-> B does not need card
+-> GDS gateway reacts to A and B IssuingCompleted
+-> GDS gateway pushes IssuingCompleted
+-> Aquiring receives issuing completed (where to get info about how much I have to pay for order?)
+-> After Aquiring pays the balance due it publishes Paied or PaymentFailed
+-> ... other services do the work.
+
 # Alternatives or concepts we can still some ideas from
 
 Karafka - framework for Kafka based applications.
