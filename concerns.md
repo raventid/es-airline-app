@@ -160,15 +160,18 @@ OrderBooled
 
 # Alternatives or concepts we can still some ideas from
 
-Karafka - framework for Kafka based applications.
+Karafka - framework for Kafka based applications:
 Too basic. Kafka as a store + transport - questionable.
 
-Arkency DDD and ES stuff.
+Arkency DDD and ES stuff:
 Too Rails-oriented (in my opinion)
 
-Sequence
-Not that bad, but not as embracing as Eventide
+Sequent:
+Not that bad, but not as embracing as Eventide.
+Definitely worth to spend some time with.
 
-Hand-made solution based on top of dry-rb (I like this one, but it's a lot of work!)
+Hand-made solution: 
+Based on top of dry-rb (I like this one, but it's a lot of work!)
+That will be a lot of hand made stuff of questionable quality.
 
 I don't care about implementation now. I care about logical and conceptual structure of an application.
