@@ -41,9 +41,6 @@ for specific views? Aggregate for client response? Aggregate for invoice?
 - If current application is based on a state machine, how to mark those steps in state machine.
 
 
-Notes. Basecamp version of developing application is just write it from scratch. Really straightforward, but then we have to migrate legacy code base. This is a bit complicated. We can just write adapter for MongoDB and tell him where to take the last data snapshots and also imagine that events history is broken for previous orders, which is perfectly fine in my opinion. 
-
-
 ### Performance and scaling
 - What if we generate a few millions of events per day, how to scale Postgresql as a storage commponent?
 
