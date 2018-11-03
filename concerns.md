@@ -48,6 +48,17 @@ for specific views? Aggregate for client response? Aggregate for invoice?
 
 - Event-sourcing and websockets or HTTP/2 push. How to do this? (I guess it should be straightforward because websockets and HTTP/2 are just transports and do not have any relation to materialized vies part or buisness logic part of an application)
 
+
+### Overall
+We can separate system into Reservation system (search fare, reserving seats) and Issuing system (issuing ticket, payment acquiring).
+They do not share event store. They are separate. But some services might be interested in both eventstreams. (For example analytics service)
+
+Or is it stupid idea or not to read from one event store, but to push event to another event store?
+
+Problem with this approach:
+The problem here is that order is a concept created from both (reservation and issuing). When order is updated by some event, where should I
+write this event? If flight departure time has changed, how should I change the order if I have two event stores?
+
 ### Flows
 
 1. 
