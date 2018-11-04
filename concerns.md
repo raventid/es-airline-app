@@ -167,7 +167,7 @@ OrderBooled
 -> ... other services do the work.
 
 11. 
-It's a black friday. We have to scale our system.
+It's a black friday. We have to scale our system. (How to scale all of the system stuff?!)
 
 # Alternatives or concepts we can still some ideas from
 
