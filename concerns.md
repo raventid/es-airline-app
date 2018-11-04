@@ -166,6 +166,9 @@ OrderBooled
 -> After Aquiring pays the balance due it publishes Paied or PaymentFailed
 -> ... other services do the work.
 
+11. 
+It's a black friday. We have to scale our system.
+
 # Alternatives or concepts we can still some ideas from
 
 Karafka - framework for Kafka based applications:
