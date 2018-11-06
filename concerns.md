@@ -172,7 +172,7 @@ It's a black friday. We have to scale our system. (How to scale all of the syste
 12. 
 What is a reservation pattern?
 
-13.
+13. 
 What if my transaction consist of multiple services?
 
 # Alternatives or concepts we can still some ideas from
