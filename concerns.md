@@ -169,6 +169,12 @@ OrderBooled
 11. 
 It's a black friday. We have to scale our system. (How to scale all of the system stuff?!)
 
+12. 
+What is a reservation pattern?
+
+13.
+What if my transaction consist of multiple services?
+
 # Alternatives or concepts we can still some ideas from
 
 Karafka - framework for Kafka based applications:
