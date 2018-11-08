@@ -175,6 +175,33 @@ What is a reservation pattern?
 13. 
 What if my transaction consist of multiple services?
 
+14. 
+Gds as a super consumer?
+
+Flight-component
+{
+ :flight_number
+ :fare_code
+}
+
+Ticket-component
+{
+  :ticket_number
+  :ticket_state
+}
+
+Passenger
+{
+  :name
+  passport: {
+    :number
+  }
+  :birhtday
+  :type
+}
+
+SpawnPassenger -> SpawnTicket -> Flight -> consume all of this (by GDS service) -> put a lot of events in the wild
+
 # Alternatives or concepts we can still some ideas from
 
 Karafka - framework for Kafka based applications:
