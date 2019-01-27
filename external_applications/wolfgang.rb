@@ -67,10 +67,11 @@ class ReservingSeatsServlet < WEBrick::HTTPServlet::AbstractServlet
   end
 
   def payload
-    { flight: {}, prices: {}, branded_fare: {} }.to_json
+    { pnr: 675 }.to_json
   end
 end
 
+# This request is not idempotent!
 class IssueTicketServlet < WEBrick::HTTPServlet::AbstractServlet
   def do_GET(request, response)
     puts request
@@ -80,7 +81,7 @@ class IssueTicketServlet < WEBrick::HTTPServlet::AbstractServlet
   end
 
   def payload
-    { flight: {}, prices: {}, branded_fare: {} }.to_json
+    { paid: true, prices: {}, branded_fare: {} }.to_json
   end
 end
 
