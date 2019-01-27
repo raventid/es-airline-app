@@ -1,0 +1,5 @@
+source 'https://rubygems.org'
+
+gemspec name: 'wolfgang_component'
+
+gem 'evt-component_host'

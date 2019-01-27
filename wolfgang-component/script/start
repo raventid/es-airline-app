@@ -1,0 +1,9 @@
+#!/usr/bin/env ruby
+
+require_relative '../init'
+
+require 'component_host'
+
+ComponentHost.start('wolfgang-component') do |host|
+  host.register(WolfgangComponent::Start)
+end

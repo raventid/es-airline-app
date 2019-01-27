@@ -1,0 +1,5 @@
+source 'https://rubygems.org'
+
+gemspec name: 'search_fare_component'
+
+gem 'evt-component_host'

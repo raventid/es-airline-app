@@ -1,0 +1,9 @@
+#!/usr/bin/env ruby
+
+require_relative '../init'
+
+require 'component_host'
+
+ComponentHost.start('charters-component') do |host|
+  host.register(ChartersComponent::Start)
+end

@@ -12,6 +12,14 @@ class App < Roda
       puts "issue a command responsible for starting search_fare"
 
       # 1. publish command to message_bus to start search_fare
+
+      # require "search_fare"
+      #
+      #
+      #
+      #
+      #
+
       # 2. receive key to get the view later
       # 3. loop { view_storage.try_to_receive_view(key) }
       # 4. serialize view json and send to client
