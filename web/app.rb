@@ -13,18 +13,21 @@ class App < Roda
 
       # 1. publish command to message_bus to start search_fare
 
-      # require "search_fare"
-      #
-      #
-      #
-      #
-      #
+      # require "search_fare/commands/search_fare"
+      # require "message_store/write_command"
+
+      # search_fare_command = SearchFare.new(ticket_data: 100, flight: 200)
+      # write_command.call(search_fare_command)
 
       # 2. receive key to get the view later
-      # 3. loop { view_storage.try_to_receive_view(key) }
-      # 4. serialize view json and send to client
+      # ???
 
-      # For number 4 we might use MVC web-framework and receive push notification from DB.
+      # 3. loop { view_storage.try_to_receive_view(key) }
+
+      # 4. serialize view json and send to client
+      # render response.json # easy
+
+      # For number 4 we might use MVC web-framework or receive push notification from DB.
     end
 
     # GET /reserving_seats request
