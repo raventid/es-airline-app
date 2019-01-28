@@ -44,6 +44,38 @@ module SearchFareComponent
 
       #   write.(something_happened, stream_name, expected_version: version)
       # end
+      handle SearchFare do |search_fare|
+        search_fare_id = search_fare.search_fare_id
+        search_fare_entity, version = store.fetch(search_fare_id, include: :version)
+
+        # TODO How should fare found work?
+        if search_fare_entity.fare_found?
+          logger.info(tag: :ignored) { "Command ignored (Command: #{search_fare.message_type}, SearchFare ID: #{search_fare_id})" }
+          return
+        end
+
+        # Register every part, impossible here?
+        # search_fare_entity.register_flight_parts(search_fare.flight_parts)
+
+
+        # For each flight part issue a command for every vendor service.
+        # search_fare.flight_parts.each do |part|
+            # stream_name = stream_name(part.gds)
+            # command = GDS::SeachFare.follow(search_fare)
+            # impossible to write command here
+            # write.(command, stream_name, expected_version: version) # cannot use this pattern here
+        # end
+        #
+        #
+
+        fare_found = FareFound.follow(search_fare)
+
+        fare_found.processed_time = clock.iso8601
+
+        stream_name = stream_name(search_fare_id)
+
+        write.(fare_found, stream_name, expected_version: version)
+      end
     end
   end
 end
