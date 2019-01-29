@@ -5,9 +5,6 @@ module SearchFareComponent
   class SearchFare
     include Schema::DataStructure
 
-    attribute :id, String
-    attribute :flight_parts, FlightPart
-
     # Internal class for flight_part
     class FlightPart
       attr_reader :cities
@@ -18,6 +15,9 @@ module SearchFareComponent
       end
     end
 
+    attribute :id, String
+    attribute :flight_parts, FlightPart
+
     # TODO Implement attributes
     # TODO Implement entity logic, predicates, mutations, calculations, etc
     # Note: This class's methods should pertain only to its attributes
@@ -27,7 +27,7 @@ module SearchFareComponent
 
     # Next step in state machine. Update the part we got information about.
     def register_fare_for(flight_part, fare)
-      part = self.flight_parts.find(|part| part.cities == flight_part.cities)
+      part = self.flight_parts.find { |part| part.cities == flight_part.cities }
       part.fare = fare
     end
 

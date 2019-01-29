@@ -1,8 +1,7 @@
 require 'eventide/postgres'
 
-# TODO Load command and event message files"
-# require 'search_fare_component/messages/commands/...'
-# require 'search_fare_component/messages/events/...'
+require 'search_fare_component/messages/commands/find_fare'
+require 'search_fare_component/messages/events/fare_found'
 
 require 'search_fare_component/search_fare'
 require 'search_fare_component/projection'

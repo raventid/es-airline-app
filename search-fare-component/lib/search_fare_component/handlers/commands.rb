@@ -7,10 +7,8 @@ module SearchFareComponent
       include Messaging::Handle
       include Messaging::StreamName
       include Log::Dependency
-      # TODO include Messages::Commands once commands are implemented
-      # include Messages::Commands
-      # TODO include Messages::Events once commands are implemented"
-      # include Messages::Events
+      include Messages::Commands
+      include Messages::Events
 
       dependency :write, Messaging::Postgres::Write
       dependency :clock, Clock::UTC
@@ -44,13 +42,14 @@ module SearchFareComponent
 
       #   write.(something_happened, stream_name, expected_version: version)
       # end
-      handle SearchFare do |search_fare|
-        search_fare_id = search_fare.search_fare_id
+      handle FindFare do |find_fare|
+        search_fare_id = find_fare.search_fare_id
         search_fare_entity, version = store.fetch(search_fare_id, include: :version)
 
         # TODO How should fare found work?
+        # Just collect some data in fare_found.
         if search_fare_entity.fare_found?
-          logger.info(tag: :ignored) { "Command ignored (Command: #{search_fare.message_type}, SearchFare ID: #{search_fare_id})" }
+          logger.info(tag: :ignored) { "Command ignored (Command: #{find_fare.message_type}, SearchFare ID: #{search_fare_id})" }
           return
         end
 
@@ -68,7 +67,7 @@ module SearchFareComponent
         #
         #
 
-        fare_found = FareFound.follow(search_fare)
+        fare_found = FareFound.follow(find_fare)
 
         fare_found.processed_time = clock.iso8601
 
