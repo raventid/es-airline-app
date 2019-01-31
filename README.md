@@ -18,3 +18,11 @@ Iterate over services. run install_gems.
 TODO: start script 
 
 Iterate over services. run start.
+
+
+
+
+
+Issues:
+
+1) Wolfgang rereads commands from stream and reissues events.
