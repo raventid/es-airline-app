@@ -5,10 +5,14 @@ module WolfgangComponent
   class Projection
     include EntityProjection
     # TODO include Messages::Events once events are implemented"
-    # include Messages::Events
+    include Messages::Events
 
     entity_name :wolfgang
 
+    apply FareFound do |fare_found|
+      wolfgang.id = fare_found.wolfgang_id
+      wolfgang.sequence = fare_found.sequence
+    end
     # TODO Implement event projection blocks
     # eg:
     # apply SomethingHappened do |something_happened|

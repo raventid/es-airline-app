@@ -3,7 +3,7 @@
 module WolfgangComponent
   module Start
     def self.call
-      Consumers::Commands.start('wolfgang:command')
+      Consumers::Commands.start('wolfgang:command', position_update_interval: 100)
       Consumers::Events.start('wolfgang')
     end
   end

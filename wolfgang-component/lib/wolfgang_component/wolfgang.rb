@@ -6,6 +6,13 @@ module WolfgangComponent
     include Schema::DataStructure
 
     attribute :id, String
+    attribute :sequence, Integer
+
+    def processed?(message_sequence)
+      return false if sequence.nil?
+
+      sequence >= message_sequence
+    end
 
     # TODO Implement attributes
     # TODO Implement entity logic, predicates, mutations, calculations, etc
