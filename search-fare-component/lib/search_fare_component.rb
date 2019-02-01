@@ -2,6 +2,8 @@ require 'eventide/postgres'
 
 require 'search_fare_component/messages/commands/find_fare'
 require 'search_fare_component/messages/events/fare_found'
+require 'search_fare_component/messages/events/found_one_of_the_fares'
+require 'search_fare_component/messages/events/initiated_find_fare'
 
 require 'search_fare_component/search_fare'
 require 'search_fare_component/projection'
