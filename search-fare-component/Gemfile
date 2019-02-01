@@ -3,3 +3,5 @@ source 'https://rubygems.org'
 gemspec name: 'search_fare_component'
 
 gem 'evt-component_host'
+
+gem 'wolfgang-client', path: '../wolfgang-component'
