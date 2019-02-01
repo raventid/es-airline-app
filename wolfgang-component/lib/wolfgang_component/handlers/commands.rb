@@ -57,7 +57,7 @@ module WolfgangComponent
         logger.info("dsadasdasadasdasdsdsaaddsddssdsakjjdfahahakh")
 
         fare_found = FareFound.follow(find_fare)
-        fare_found.time = "2000-01-01T11:11:11.000Z"
+        fare_found.time = "2000-01-01T11:11:11.000Z" # should it be the time from a command?
         fare_found.processed_time = "2000-01-01T11:11:11.000Z"
         fare_found.sequence = sequence
 

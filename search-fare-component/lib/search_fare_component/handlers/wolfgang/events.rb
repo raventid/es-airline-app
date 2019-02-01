@@ -25,13 +25,17 @@ module SearchFareComponent
         # Potentially This gateway component SearchFareComponent
         # could be an interactor step for us, which works directly with
         # gds events.
-        handle Wolfgang::FareFound do |fare_found|
+        handle ::Wolfgang::Client::Messages::Events::FareFound do |fare_found|
+          correlation_stream_name = fare_found.metadata.correlation_stream_name
+          search_fare_id = Messaging::StreamName.get_id(correlation_stream_name)
+
+
+          search_fare, version = store.fetch(search_fare_id, include: :version)
           # Here we use correlation stream, we are waiting
           # for Wolfgang fare_found or Wolfgang
           # TODO: Wait for Wolfgang to return FareNotFound
 
           # TODO: Implement correct correlation logic.
-          search_fare_id = fare_found.search_fare_id
 
           # This event is potentially will be ignored.
           # So it's just a marker event.

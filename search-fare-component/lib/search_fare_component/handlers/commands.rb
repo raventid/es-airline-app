@@ -44,12 +44,13 @@ module SearchFareComponent
       # end
       handle FindFare do |find_fare|
         search_fare_id = find_fare.search_fare_id
+
         search_fare_entity, version = store.fetch(search_fare_id, include: :version)
 
         # TODO How should fare found work?
         # Just collect some data in fare_found.
         if search_fare_entity.fare_found?
-          logger.info(tag: :ignored) { "Command ignored (Command: #{find_fare.message_type}, SearchFare ID: #{search_fare_id})" }
+          logger.info("Command ignored (Command: #{find_fare.message_type}, SearchFare ID: #{search_fare_id})")
           return
         end
 
