@@ -16,7 +16,7 @@ module SearchFareComponent
       # eg:
       # handle SomethingHappened do |something_happened|
       # end
-      handle Initiated do |initiated|
+      handle InitiatedFindFare do |initiated|
         # We initiated the search
         #
         # 1. register_flight_parts in entity
@@ -25,7 +25,7 @@ module SearchFareComponent
 
       # Move to GDS handler
       #
-      #
+      # This code should be moved to individual GDS handler.
       handle GDS::Client::FareFound do |fare_found|
         entity = fare_found.search_fare_id
 
