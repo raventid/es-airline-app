@@ -6,7 +6,7 @@ module SearchFareComponent
 
         attribute :search_fare_id, String
         attribute :search_part, String
-        attribute :gds, String
+        attribute :request, Hash # meeeeeh, should be [("mow-led", "galileo"), ("led-par", "sirena"), ("par-lon", "sita")]
         attribute :time, String
       end
     end
