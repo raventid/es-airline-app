@@ -29,6 +29,7 @@ module SearchFareComponent
           correlation_stream_name = fare_found.metadata.correlation_stream_name
           search_fare_id = Messaging::StreamName.get_id(correlation_stream_name)
 
+          logger.info("I RECEIVED FARE FOUND FROM GDS!!! search_fare_id: #{search_fare_id}")
 
           search_fare, version = store.fetch(search_fare_id, include: :version)
           # Here we use correlation stream, we are waiting
@@ -41,11 +42,20 @@ module SearchFareComponent
           # So it's just a marker event.
           # Still it might be usefull for debugging and coordination.
 
+          # TODO How should fare found work?
+          # Just collect some data in fare_found.
+          stream_name = stream_name(search_fare_id)
+
+          logger.info("ISSUING FOUND_ONE_OF_THE_FARES with search_fare_id: #{search_fare_id}")
+
           # TODO: FoundOneOfTheFares should be usec in SearchFare projection.
-
-          # found_one_of_the_fares = FoundOneOfTheFares.follow(fare_found)
-
-          # write.(found_one_of_the_fares)
+          found_one_of_the_fares  = FoundOneOfTheFares.new
+          found_one_of_the_fares.search_fare_id = search_fare_id
+          found_one_of_the_fares.part = fare_found.part
+          found_one_of_the_fares.data = fare_found.data
+          found_one_of_the_fares.metadata.follow(fare_found.metadata)
+          found_one_of_the_fares.processed_time = clock.iso8601
+          write.(found_one_of_the_fares, stream_name)
         end
 
 

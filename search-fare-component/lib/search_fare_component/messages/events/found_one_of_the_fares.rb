@@ -6,8 +6,9 @@ module SearchFareComponent
 
         attribute :search_fare_id, String
         attribute :time, String
+        attribute :part, String
         attribute :processed_time, String
-        attribute :data, String
+        attribute :data, Hash
       end
     end
   end

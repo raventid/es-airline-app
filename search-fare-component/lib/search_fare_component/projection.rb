@@ -4,28 +4,21 @@
 module SearchFareComponent
   class Projection
     include EntityProjection
-    # TODO include Messages::Events once events are implemented"
     include Messages::Events
 
     entity_name :search_fare
 
-    # TODO Implement event projection blocks
-    # eg:
-    # apply SomethingHappened do |something_happened|
-    #   SetAttributes.(search_fare, something_happened, copy: [
-    #     { :search_fare_id => :id }
-    #   ])
+    apply InitiatedFindFare do |initiated_find_fare|
+      # Register all of the search part I have to work with.
+      search_fare.register_flight_parts(initiated_find_fare.request)
+    end
 
-    #   something_happened_time = Clock.parse(something_happened.time)
-
-    #   search_fare.something_happened_time = something_happened_time
-    # end
     apply FoundOneOfTheFares do |found_one_of_the_fares|
-      # Follow sequence.
-      search_fare.sequence = found_one_of_the_fares.sequence
+      # Follow sequence. Protection from reprocessing commands.
+      # search_fare.sequence = found_one_of_the_fares.sequence
 
       # Register fare found for particular entity.
-      search_fare.register_part(found_one_of_the_fares.part, found_one_of_the_fares.fare_info)
+      search_fare.register_fare_for(found_one_of_the_fares.part, found_one_of_the_fares.data[:prices])
     end
   end
 end

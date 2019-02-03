@@ -8,7 +8,8 @@ module SearchFareComponent
       Consumers::Events.start('searchFare')
 
       # Consumers for WolfgangComponent
-      # Consumers::Wolfgang::Events.start('wolfgang')
+      correlation_condition = "metadata->>'correlationStreamName' LIKE 'searchFare-%'"
+      Consumers::Wolfgang::Events.start('wolfgang', condition: correlation_condition)
     end
   end
 end

@@ -6,6 +6,7 @@ module WolfgangComponent
 
         attribute :wolfgang_id, String
         attribute :time, String
+        attribute :part, String
         attribute :processed_time, String
         attribute :sequence, Integer
         attribute :data, Hash
