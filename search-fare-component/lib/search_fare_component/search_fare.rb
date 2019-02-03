@@ -36,7 +36,6 @@ module SearchFareComponent
 
     # Next step in state machine. Update the part we got information about.
     def register_fare_for(part, fare)
-      require "pry"; binding.pry
       self.flight_parts[part.to_sym][:received] = true
     end
 

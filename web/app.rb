@@ -11,6 +11,13 @@ class App < Roda
     r.on "search_fare" do
       puts "issue a command responsible for starting search_fare"
 
+      # 0. Intro: Build client for searchFare service.
+      # Not sure if it will be the main coordinating service?
+      #
+      # SearchFare provides command to strat service machine.
+      # key = searchFare.(params, params, search_fare_id)
+      # loop with this key?
+
       # 1. publish command to message_bus to start search_fare
 
       # require "search_fare/commands/search_fare"
