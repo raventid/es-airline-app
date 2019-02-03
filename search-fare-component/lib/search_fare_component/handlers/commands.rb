@@ -43,13 +43,18 @@ module SearchFareComponent
       #   write.(something_happened, stream_name, expected_version: version)
       # end
       handle FindFare do |find_fare|
+        # Potential point for command validation.
+
+        # dry-validation hell goes here! Or dry-schema!
+
         search_fare_id = find_fare.search_fare_id
+
         search_fare_entity, version = store.fetch(search_fare_id, include: :version)
 
         # TODO How should fare found work?
         # Just collect some data in fare_found.
         if search_fare_entity.fare_found?
-          logger.info(tag: :ignored) { "Command ignored (Command: #{find_fare.message_type}, SearchFare ID: #{search_fare_id})" }
+          logger.info("Command ignored (Command: #{find_fare.message_type}, SearchFare ID: #{search_fare_id})")
           return
         end
 
@@ -67,13 +72,17 @@ module SearchFareComponent
         #
         #
 
-        fare_found = FareFound.follow(find_fare)
+        logger.info("FindFare Received, issue InitiatedFindFare")
 
-        fare_found.processed_time = clock.iso8601
+        initiated_find_fare = InitiatedFindFare.follow(find_fare)
+
+        initiated_find_fare.processed_time = clock.iso8601
 
         stream_name = stream_name(search_fare_id)
 
-        write.(fare_found, stream_name, expected_version: version)
+        initiated_find_fare.metadata.correlation_stream_name = stream_name
+
+        write.(initiated_find_fare, stream_name, expected_version: version)
       end
     end
   end

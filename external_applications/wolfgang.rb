@@ -85,7 +85,7 @@ class IssueTicketServlet < WEBrick::HTTPServlet::AbstractServlet
   end
 end
 
-server = WEBrick::HTTPServer.new(Port: WOLFGANG_EXTERNAL_APP_PORT)
+server = WEBrick::HTTPServer.new(Port: WOLFGANG_SERVER_APP_PORT)
 
 server.mount "/search_fare", SearchFareServlet
 server.mount "/reserving_seats", ReservingSeatsServlet
