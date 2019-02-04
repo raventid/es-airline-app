@@ -1,6 +1,13 @@
 require "roda"
+require "mongoid"
 
 class App < Roda
+  # TODO: Sorry...
+  # I'm gonna build client for searchFare, but later :)
+  require_relative '../search-fare-component/init.rb'
+
+  Mongoid.load!("./settings/mongoid.yml", :development)
+
   route do |r|
     # GET / request
     r.root do
@@ -9,7 +16,31 @@ class App < Roda
 
     # GET /search_fare request
     r.on "search_fare" do
-      puts "issue a command responsible for starting search_fare"
+      puts "Issue a command responsible for starting search_fare"
+
+      search_fare_id = ::Identifier::UUID::Random.get
+
+      find_fare = SearchFareComponent::Messages::Commands::FindFare.new
+      find_fare.search_fare_id = search_fare_id
+      find_fare.time = '2000-01-01T11:11:11.000Z'
+      find_fare.request = {
+        "mow-led" => {
+          departure: "MOW",
+          arrival: "LED",
+          gds: "wolfgang",
+        }
+      }
+
+      command_stream_name = "searchFare:command-#{search_fare_id}"
+
+      # TODO: import client to web-app. Do not use raw command.
+      Messaging::Postgres::Write.(find_fare, command_stream_name)
+
+      # loop do
+      #   response = try_to_read_view(key)
+      #   break if response
+      # end
+
 
       # 0. Intro: Build client for searchFare service.
       # Not sure if it will be the main coordinating service?
@@ -35,6 +66,9 @@ class App < Roda
       # render response.json # easy
 
       # For number 4 we might use MVC web-framework or receive push notification from DB.
+
+      response['Content-Type'] = 'application/json'
+      {'status'=>'request is received... waiting for response'}.to_json
     end
 
     # GET /reserving_seats request
