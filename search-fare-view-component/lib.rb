@@ -38,6 +38,18 @@ module SearchFareViewComponent
         Messaging::Postgres::Write.configure(self)
       end
 
+      # Additional view requirements might be here
+      # ...
+
+      # handle Charter::Messages::Events::FounFare do |found_fare|
+      #   charter_id = found_fare.charter_id
+
+      #   I don't have search_fare_id information here. How to find out what view
+      #   to update?
+
+      #   I have to update internals of ViewModels::SearchFare.
+      # end
+
       # Collecting data about fares
       handle SearchFareComponent::Messages::Events::FoundOneOfTheFares do |fare_found|
           id = fare_found.search_fare_id
@@ -87,7 +99,7 @@ module SearchFareViewComponent
   end
 end
 
-# Start both consumers
+# Start the consumer for searchFare stream.
 module SearchFareViewComponent
   module Start
     def self.call
