@@ -1,0 +1,6 @@
+development:
+  clients:
+    default:
+      database: es_airline_app
+      hosts:
+        - localhost:27017

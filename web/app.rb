@@ -1,5 +1,6 @@
 require "roda"
 require "mongoid"
+require_relative "./view_models/search_fare.rb"
 
 class App < Roda
   # TODO: Sorry...
@@ -7,6 +8,7 @@ class App < Roda
   require_relative '../search-fare-component/init.rb'
 
   Mongoid.load!("./settings/mongoid.yml", :development)
+  # Mongoid.connect_to("es_airline_app")
 
   route do |r|
     # GET / request
@@ -36,39 +38,17 @@ class App < Roda
       # TODO: import client to web-app. Do not use raw command.
       Messaging::Postgres::Write.(find_fare, command_stream_name)
 
-      # loop do
-      #   response = try_to_read_view(key)
-      #   break if response
-      # end
-
-
-      # 0. Intro: Build client for searchFare service.
-      # Not sure if it will be the main coordinating service?
-      #
-      # SearchFare provides command to strat service machine.
-      # key = searchFare.(params, params, search_fare_id)
-      # loop with this key?
-
-      # 1. publish command to message_bus to start search_fare
-
-      # require "search_fare/commands/search_fare"
-      # require "message_store/write_command"
-
-      # search_fare_command = SearchFare.new(ticket_data: 100, flight: 200)
-      # write_command.call(search_fare_command)
-
-      # 2. receive key to get the view later
-      # ???
-
-      # 3. loop { view_storage.try_to_receive_view(key) }
-
-      # 4. serialize view json and send to client
-      # render response.json # easy
-
-      # For number 4 we might use MVC web-framework or receive push notification from DB.
+      # I know, I know... sorry
+      view = nil
+      while !view || view&.status != "completed" do
+         sleep 0.1
+         view = ViewModels::SearchFare.where(key: search_fare_id.to_s).first
+       end
 
       response['Content-Type'] = 'application/json'
-      {'status'=>'request is received... waiting for response'}.to_json
+
+      # Just render view from Mongodb.
+      view.to_json
     end
 
     # GET /reserving_seats request

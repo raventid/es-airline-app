@@ -1,0 +1,8 @@
+source 'https://rubygems.org'
+
+gem 'evt-component_host'
+gem 'eventide-postgres'
+gem 'mongoid'
+
+gem 'pry'
+gem 'pry-byebug'
