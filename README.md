@@ -20,7 +20,9 @@ TODO: start script
 Iterate over services. run start.
 
 
+## General overview of application
 
+![alt text](https://github.com/raventid/es-airline-app/blob/master/uml/generated/basic_diagram.svg "general overview")
 
 
 Issues:

@@ -1,0 +1,29 @@
+@startuml
+
+skinparam ParticipantPadding 20
+skinparam BoxPadding 10
+
+
+box "Booking"
+participant SearchFare
+participant handle_FareFound
+end box
+
+box "SearchFare"
+participant SearchFareHandler
+participant handle_initiatedFindFare
+end box
+
+box "Wolfgang"
+participant whandle_FindFare
+participant wFareFound
+end box
+
+SearchFareHandler -> handle_initiatedFindFare : {gds: wolfgang}
+
+SearchFare -> SearchFareHandler : {\n   fares: 10,\n   total: {currency: "RUB"},\n   additional_fares: 20,\n   rules: text\n}
+SearchFareHandler -> handle_FareFound : {found: 10}
+
+wFareFound --> SearchFare : {hello: true}
+wFareFound --> SearchFareHandler : {hello: true}
+@enduml
