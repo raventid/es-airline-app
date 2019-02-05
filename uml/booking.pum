@@ -1,0 +1,71 @@
+@startuml
+
+skinparam ParticipantPadding 20
+skinparam BoxPadding 10
+
+box "Web Application"
+participant "SearchFareRoute"
+end box
+
+
+box "SearchFareView service"
+participant "handle SearchFare::FoundOneOfTheFares"
+participant "handle SearchFare::FareFound"
+end box
+
+box "SearchFare Service"
+participant "handle FindFare"
+participant "handle InitiatedFindFareEvent"
+participant "handle Wolfgang::FareFound"
+participant "handle Charter::FareFound"
+participant "handle FoundOneOfTheFares"
+end box
+
+box "Wolfgang Service"
+participant "handle Wolfgang::FindFare"
+end box
+
+box "Charter Service"
+participant "handle Charter::FindFare"
+end box
+
+/'
+ ' Web app triggers the service layer
+ '/
+"SearchFareRoute" -> "handle FindFare" : <back:cadetblue>FindFare</back> \n{\n  search_fare_id: 123,\n  time: '2000-01-01T11:11:11.000Z',\n  request: {\n   "mow-led": {\n      departure: "MOW",\n      arrival: "LED",\n      gds: "wolfgang"\n    },\n    "led-mow": {\n      departure: "LED",\n      arrival: "MOW",\n      gds: "charter"\n    }\n  }\n}
+
+/'
+ ' Mark search fare process as started
+ '/
+"handle FindFare" --> "handle InitiatedFindFareEvent" : <back:cadetblue>InitiatedFindFare</back> \n{\n  search_fare_id: 123,\n  time: '2000-01-01T11:11:11.000Z',\n  processed_time: '2000-01-01T11:11:11.011Z'\n  request: {\n   "mow-led": {\n      departure: "MOW",\n      arrival: "LED",\n      gds: "wolfgang"\n    },\n    "led-mow": {\n      departure: "LED",\n      arrival: "MOW",\n      gds: "charter"\n    }\n  }\n}
+
+/'
+ ' Broadcast commands to GDS
+ '/
+"handle InitiatedFindFareEvent" -> "handle Wolfgang::FindFare" : <back:cadetblue>Wolfgang::FindFare</back> \n{\n  search_fare_id: 123,\n  time: '2000-01-01T11:11:11.000Z',\n  processed_time: '2000-01-01T11:11:11.011Z'\n  request: {\n   "mow-led": {\n      departure: "MOW",\n      arrival: "LED",\n      gds: "wolfgang"\n    }\n }\n}
+"handle InitiatedFindFareEvent" -> "handle Charter::FindFare" : <back:cadetblue>Charter::FindFare</back> \n{\n  search_fare_id: 123,\n  time: '2000-01-01T11:11:11.000Z',\n  processed_time: '2000-01-01T11:11:11.011Z'\n  request: {\n   "led-mow": {\n      departure: "LED",\n      arrival: "MOW",\n      gds: "charter"\n    }\n }\n}
+
+
+"handle Wolfgang::FindFare" --> "handle Wolfgang::FareFound" : <back:cadetblue>Wolfgang::FareFound</back> \n{\n  search_fare_id: 123,\n  time: '2000-01-01T11:11:11.000Z',\n  processed_time: '2000-01-01T11:11:11.011Z'\n  request: {\n   "mow-led": {\n      departure: "MOW",\n      arrival: "LED",\n      gds: "wolfgang"\n    }\n }\n}
+"handle Charter::FindFare" --> "handle Charter::FareFound" : <back:cadetblue>Charter::FareFound</back> \n{\n  search_fare_id: 123,\n  time: '2000-01-01T11:11:11.000Z',\n  processed_time: '2000-01-01T11:11:11.011Z'\n  request: {\n   "led-mow": {\n      departure: "LED",\n      arrival: "MOW",\n      gds: "charter"\n    }\n }\n}
+
+/'
+ ' Wrap custom GDS events into general fare found events
+ '/
+"handle Wolfgang::FareFound" --> "handle FoundOneOfTheFares" : <back:cadetblue>FoundOneOfTheFares</back> \n{\n  search_fare_id: 123,\n  time: '2000-01-01T11:11:11.000Z',\n  processed_time: '2000-01-01T11:11:11.011Z'\n  request: {\n   "mow-led": {\n      departure: "MOW",\n      arrival: "LED",\n      gds: "wolfgang"\n    }\n }\n}
+"handle Charter::FareFound" --> "handle FoundOneOfTheFares" : <back:cadetblue>FoundOneOfTheFares</back> \n{\n  search_fare_id: 123,\n  time: '2000-01-01T11:11:11.000Z',\n  processed_time: '2000-01-01T11:11:11.011Z'\n  request: {\n   "led-mow": {\n      departure: "LED",\n      arrival: "MOW",\n      gds: "charter"\n    }\n }\n}
+
+/'
+ ' This is to add additional information to user interface
+ '/
+"handle Wolfgang::FareFound" --> "handle SearchFare::FoundOneOfTheFares" : <back:cadetblue>FoundOneOfTheFares</back> \n{\n  search_fare_id: 123,\n  time: '2000-01-01T11:11:11.000Z',\n  processed_time: '2000-01-01T11:11:11.011Z'\n  request: {\n   "mow-led": {\n      departure: "MOW",\n      arrival: "LED",\n      gds: "wolfgang"\n    }\n }\n}
+"handle Charter::FareFound" --> "handle SearchFare::FoundOneOfTheFares" : <back:cadetblue>FoundOneOfTheFares</back> \n{\n  search_fare_id: 123,\n  time: '2000-01-01T11:11:11.000Z',\n  processed_time: '2000-01-01T11:11:11.011Z'\n  request: {\n   "led-mow": {\n      departure: "LED",\n      arrival: "MOW",\n      gds: "charter"\n    }\n }\n}
+
+/'
+ ' Woking with view component
+ '/
+
+"handle FoundOneOfTheFares" --> "handle SearchFare::FareFound" : <back:cadetblue>FareFound</back> \n{\n  search_fare_id: 123,\n  time: '2000-01-01T11:11:11.000Z',\n  processed_time: '2000-01-01T11:11:11.011Z',\n  status: "completed",\n}
+"SearchFareRoute" -> "handle SearchFare::FareFound" : <back:lightgreen>Loop until view is ready</back>\nStatus should be set to `completed`
+
+@enduml
