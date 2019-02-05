@@ -1,5 +1,6 @@
 # Handler user guide: http://docs.eventide-project.org/user-guide/handlers.html
 # Message user guide: http://docs.eventide-project.org/user-guide/messages-and-message-data/
+require_relative "../../../../global_config"
 
 module WolfgangComponent
   module Handlers
@@ -61,7 +62,7 @@ module WolfgangComponent
         fare_found.processed_time = "2000-01-01T11:11:11.000Z"
         fare_found.sequence = sequence
 
-        fare_found.data = JSON.parse(Faraday.get("http://localhost:8081/search_fare").body)
+        fare_found.data = JSON.parse(Faraday.get("http://localhost:#{WOLFGANG_SERVER_APP_PORT}/search_fare").body)
 
         stream_name = stream_name(wolfgang_id)
 

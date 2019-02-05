@@ -40,11 +40,11 @@ module SearchFareComponent
 
           # 4. Issue command for every GDS gateway.
           id = Identifier::UUID::Random.get # Here should be `gds`-generator
-          find_fare = ::Wolfgang::Client::Messages::Commands::FindFare.new
+          find_fare = ::Object.const_get(gds_name.capitalize)::Client::Messages::Commands::FindFare.new
           find_fare.part = key.to_s # part is a key
           # TODO: how to copy meta?
           find_fare.metadata.follow(initiated.metadata)
-          find_fare.wolfgang_id = id # Here should be `gds_name`_id
+          find_fare.send("#{gds_name}_id=", id) # Here should be `gds_name`_id
           find_fare.time = '2000-01-01T11:11:11.000Z' # better way?
 
           command_stream_name = "#{gds_name}:command-#{id}" # how to incapsulate?

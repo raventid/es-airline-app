@@ -30,6 +30,11 @@ class App < Roda
           departure: "MOW",
           arrival: "LED",
           gds: "wolfgang",
+        },
+        "led-mow" => {
+          departure: "LED",
+          arrival: "MOW",
+          gds: "charters"
         }
       }
 

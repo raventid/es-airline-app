@@ -5,10 +5,14 @@ module ChartersComponent
   class Projection
     include EntityProjection
     # TODO include Messages::Events once events are implemented"
-    # include Messages::Events
+    include Messages::Events
 
     entity_name :charters
 
+    apply FareFound do |fare_found|
+      charters.id = fare_found.charters_id
+      charters.sequence = fare_found.sequence
+    end
     # TODO Implement event projection blocks
     # eg:
     # apply SomethingHappened do |something_happened|

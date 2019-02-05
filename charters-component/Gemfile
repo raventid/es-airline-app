@@ -3,3 +3,4 @@ source 'https://rubygems.org'
 gemspec name: 'charters_component'
 
 gem 'evt-component_host'
+gem 'faraday'
