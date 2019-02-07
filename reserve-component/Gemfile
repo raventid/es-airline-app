@@ -1,5 +1,0 @@
-source 'https://rubygems.org'
-
-gemspec name: 'reserve_component'
-
-gem 'evt-component_host'

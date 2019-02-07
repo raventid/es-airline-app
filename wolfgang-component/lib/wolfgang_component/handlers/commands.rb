@@ -8,12 +8,11 @@ module WolfgangComponent
       include Messaging::Handle
       include Messaging::StreamName
       include Log::Dependency
-      # TODO include Messages::Commands once commands are implemented
       include Messages::Commands
-      # TODO include Messages::Events once commands are implemented"
       include Messages::Events
 
       dependency :write, Messaging::Postgres::Write
+      dependency :local_store, Messaging::Postgres::Write
       dependency :clock, Clock::UTC
       dependency :store, Store
 
@@ -25,26 +24,6 @@ module WolfgangComponent
 
       category :wolfgang
 
-      # TODO Implement command handler blocks
-      # eg:
-      # handle DoSomething do |do_something|
-      #   wolfgang_id = do_something.wolfgang_id
-
-      #   wolfgang, version = store.fetch(wolfgang_id, include: :version)
-
-      #   if wolfgang.something_happened?
-      #     logger.info(tag: :ignored) { "Command ignored (Command: #{do_something.message_type}, Wolfgang ID: #{wolfgang_id})" }
-      #     return
-      #   end
-
-      #   something_happened = SomethingHappened.follow(do_something)
-
-      #   something_happened.processed_time = clock.iso8601
-
-      #   stream_name = stream_name(wolfgang_id)
-
-      #   write.(something_happened, stream_name, expected_version: version)
-      # end
       handle FindFare do |find_fare|
         wolfgang_id = find_fare.wolfgang_id
 
@@ -62,33 +41,42 @@ module WolfgangComponent
         fare_found.processed_time = "2000-01-01T11:11:11.000Z"
         fare_found.sequence = sequence
 
+        # timeouts?
+        # internal response (bad xml parsing, credentials mistake)
         fare_found.data = JSON.parse(Faraday.get("http://localhost:#{WOLFGANG_SERVER_APP_PORT}/search_fare").body)
 
         stream_name = stream_name(wolfgang_id)
 
         write.(fare_found, stream_name)
+      end
 
-        # # search_fare_response = run_external_idepotent_search_fare_request(find_fare.req_payload)
+      handle BookTicket do |find_fare|
+        wolfgang_id = find_fare.wolfgang_id
 
-        # # if fare is successfully found
-        # if search_fare_response.success? && search_fare_response.prices
-        #   fare_found = FareFound.follow(find_fare)
-        #   write.(fare_found, stream_name)
-        # end
+        # # skip idempotence protections
+        wolfgang = store.fetch(wolfgang_id)
+        sequence = find_fare.metadata.global_position
 
-        # # if fare is not found at all
-        # if !search_fare_response.success?
-        #   fare_not_found = FareNotFound.follow(find_fare)
-        #   write.(fare_not_found, stream_name)
-        # end
+        if wolfgang.processed?(sequence)
+          return
+        end
 
-        # Both of the messages above are also handled by search-fare-component.
-        #
-        #
-        #
+        logger.info("dsadasdasadasdasdsdsaaddsddssdsakjjdfahahakh")
+
+        fare_found = TicketBooked.follow(find_fare)
+        fare_found.time = "2000-01-01T11:11:11.000Z" # should it be the time from a command?
+        fare_found.processed_time = "2000-01-01T11:11:11.000Z"
+        fare_found.sequence = sequence
 
         # timeouts?
         # internal response (bad xml parsing, credentials mistake)
+
+        # TODO: use reservation route
+        fare_found.data = JSON.parse(Faraday.get("http://localhost:#{WOLFGANG_SERVER_APP_PORT}/search_fare").body)
+
+        stream_name = stream_name(wolfgang_id)
+
+        write.(fare_found, stream_name)
       end
     end
   end

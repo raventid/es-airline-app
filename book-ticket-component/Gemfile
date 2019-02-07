@@ -1,0 +1,8 @@
+source 'https://rubygems.org'
+
+gemspec name: 'book_ticket_component'
+
+gem 'evt-component_host'
+
+gem 'wolfgang-client', path: '../wolfgang-component'
+gem 'charters-client', path: '../charters-component'
