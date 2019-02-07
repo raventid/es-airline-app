@@ -35,12 +35,11 @@ module BookTicketComponent
 
           # 4. Issue command for every GDS gateway.
           id = Identifier::UUID::Random.get # Here should be `gds`-generator
-          find_fare = ::Object.const_get(gds_name.capitalize)::Client::Messages::Commands::BookTicket.new
-          find_fare.part = key.to_s # part is a key
-          # TODO: how to copy meta?
-          find_fare.metadata.follow(initiated.metadata)
-          find_fare.send("#{gds_name}_id=", id) # Here should be `gds_name`_id
-          find_fare.time = '2000-01-01T11:11:11.000Z' # better way?
+          book_ticket = ::Object.const_get(gds_name.capitalize)::Client::Messages::Commands::BookTicket.new
+          book_ticket.part = key.to_s # part is a key
+          book_ticket.metadata.follow(initiated.metadata)
+          book_ticket.send("#{gds_name}_id=", id) # Here should be `gds_name`_id
+          book_ticket.time = '2000-01-01T11:11:11.000Z' # better way?
 
           command_stream_name = "#{gds_name}:command-#{id}" # how to incapsulate?
 
@@ -49,7 +48,7 @@ module BookTicketComponent
           # we should made an object command in Wolfgang and import it here.
           # So we can register it as dependency and run isolated tests.
 
-          write.(find_fare, command_stream_name)
+          write.(book_ticket, command_stream_name)
         end
       end
 

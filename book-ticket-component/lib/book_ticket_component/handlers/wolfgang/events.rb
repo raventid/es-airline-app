@@ -44,13 +44,13 @@ module BookTicketComponent
 
           logger.info("ISSUING FOUND_ONE_OF_THE_FARES with book_ticket_id: #{book_ticket_id}")
 
-          found_one_of_the_fares  = OneOfTheTicketsBooked.new
-          found_one_of_the_fares.book_ticket_id = book_ticket_id
-          found_one_of_the_fares.part = fare_found.part
-          found_one_of_the_fares.data = fare_found.data
-          found_one_of_the_fares.metadata.follow(fare_found.metadata)
-          found_one_of_the_fares.processed_time = clock.iso8601
-          write.(found_one_of_the_fares, stream_name)
+          one_of_the_tickets_booked  = OneOfTheTicketsBooked.new
+          one_of_the_tickets_booked.book_ticket_id = book_ticket_id
+          one_of_the_tickets_booked.part = fare_found.part
+          one_of_the_tickets_booked.data = fare_found.data
+          one_of_the_tickets_booked.metadata.follow(fare_found.metadata)
+          one_of_the_tickets_booked.processed_time = clock.iso8601
+          write.(one_of_the_tickets_booked, stream_name)
         end
       end
     end
