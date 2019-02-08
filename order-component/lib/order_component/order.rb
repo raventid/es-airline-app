@@ -6,9 +6,9 @@ module OrderComponent
     include Schema::DataStructure
 
     attribute :id, String
+    attribute :pnr, String
+    attribute :status, String
 
-    # TODO Implement attributes
-    # TODO Implement entity logic, predicates, mutations, calculations, etc
     # Note: This class's methods should pertain only to its attributes
   end
 end
