@@ -47,28 +47,29 @@ module ChartersComponent
         write.(fare_found, stream_name)
       end
 
-      handle BookTicket do |find_fare|
-        charters_id = find_fare.charters_id
+      handle BookTicket do |book_ticket|
+        charters_id = book_ticket.charters_id
 
         # # skip idempotence protections
         charters = store.fetch(charters_id)
-        sequence = find_fare.metadata.global_position
+        sequence = book_ticket.metadata.global_position
+
         if charters.processed?(sequence)
           return
         end
 
         logger.info("dsadasdasadasdasdsdsaaddsddssdsakjjdfahahakh")
 
-        fare_found = TicketBooked.follow(find_fare)
-        fare_found.time = "2000-01-01T11:11:11.000Z" # should it be the time from a command?
-        fare_found.processed_time = "2000-01-01T11:11:11.000Z"
-        fare_found.sequence = sequence
+        ticket_booked = TicketBooked.follow(book_ticket)
+        ticket_booked.time = "2000-01-01T11:11:11.000Z" # should it be the time from a command?
+        ticket_booked.processed_time = "2000-01-01T11:11:11.000Z"
+        ticket_booked.sequence = sequence
 
-        fare_found.data = JSON.parse(Faraday.get("http://localhost:#{CHARTERS_SERVER_APP_PORT}/search_fare").body)
+        ticket_booked.data = JSON.parse(Faraday.get("http://localhost:#{CHARTERS_SERVER_APP_PORT}/search_fare").body)
 
         stream_name = stream_name(charters_id)
 
-        write.(fare_found, stream_name)
+        write.(ticket_booked, stream_name)
       end
     end
   end

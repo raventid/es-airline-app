@@ -35,13 +35,13 @@ module BookTicketComponent
     end
 
     # Next step in state machine. Update the part we got information about.
-    def register_fare_for(part, fare)
+    def register_ticket_for(part, fare)
       self.flight_parts[part.to_sym][:received] = true
     end
 
     # Fare found for every required part of flight.
     # So it's a final state for our state machine.
-    def fare_found?
+    def every_ticket_booked?
       self.flight_parts.all? do |k,v|
         v[:received]
       end

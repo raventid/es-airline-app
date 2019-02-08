@@ -23,24 +23,16 @@ module BookTicketComponent
       category :book_ticket
 
       handle BookTicketM do |book_ticket|
-        # Potential point for command validation.
-
-        # dry-validation hell goes here! Or dry-schema!
-
         book_ticket_id = book_ticket.book_ticket_id
 
         book_ticket_entity, version = store.fetch(book_ticket_id, include: :version)
 
-        logger.info("FindFare Received, issue InitiatedFindFare")
+        logger.info("BookTicketM Received, issue InitiatedBookTicket")
 
         initiated_book_ticket = InitiatedBookTicket.follow(book_ticket)
-
         initiated_book_ticket.processed_time = clock.iso8601
-
         stream_name = stream_name(book_ticket_id)
-
         initiated_book_ticket.metadata.correlation_stream_name = stream_name
-
         write.(initiated_book_ticket, stream_name, expected_version: version)
       end
     end

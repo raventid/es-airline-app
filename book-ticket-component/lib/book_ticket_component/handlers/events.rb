@@ -63,7 +63,7 @@ module BookTicketComponent
         # Catch every FoundOneOfTheFares event.
         # If we already found all of the fares for current book_ticket, then
         # we can issue our terminating event - FareFound.
-        return unless book_ticket.fare_found?
+        return unless book_ticket.every_ticket_booked?
 
         logger.info("Every fare found. Event processed (Command: #{one_of_the_tickets_booked.message_type}, SearchFare ID: #{book_ticket_id})")
         found = TicketBooked.new
