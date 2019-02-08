@@ -1,8 +1,10 @@
 require 'eventide/postgres'
 
-# TODO Load command and event message files"
 require 'charters_component/messages/commands/find_fare'
 require 'charters_component/messages/events/fare_found'
+
+require 'charters_component/messages/commands/book_ticket'
+require 'charters_component/messages/events/ticket_booked'
 
 require 'charters_component/charters'
 require 'charters_component/projection'

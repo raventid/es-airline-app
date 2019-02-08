@@ -1,0 +1,9 @@
+#!/usr/bin/env ruby
+
+require_relative '../init'
+
+require 'component_host'
+
+ComponentHost.start('book-ticket-component') do |host|
+  host.register(BookTicketComponent::Start)
+end

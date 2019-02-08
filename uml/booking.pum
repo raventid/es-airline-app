@@ -3,10 +3,23 @@
 skinparam ParticipantPadding 20
 skinparam BoxPadding 10
 
+/'
+ ' scale max 1420 width
+ '/
+
+/'
+ ' To render parallel messages
+ '/
+!pragma teoz true
+
 box "Web Application"
 participant "SearchFareRoute"
 end box
 
+box "Order service"
+participant "handle SearchFare::FareFound(o)"
+participant "handle BookTicket::TicketBooked(o)"
+end box
 
 box "SearchFareView service"
 participant "handle SearchFare::FoundOneOfTheFares"
@@ -30,9 +43,36 @@ participant "handle Charter::FindFare"
 end box
 
 /'
+ ' box "Baggage Service"
+ ' participant "handle Wolfgang::FareFound(b)"
+ ' participant "handle Charter::FareFound(b)"
+ ' end box
+ ' 
+ ' box "Pricing service"
+ ' participant "handle Charter::FareFound(p)"
+ ' participant "handle Wolfgang::FareFound(p)"
+ ' end box
+ ' 
+ ' box "Email service"
+ ' participant "handle Charter::FareFound(e)"
+ ' participant "handle Wolfgang::FareFound(e)"
+ ' end box
+ ' 
+ ' box "Broadcast service"
+ ' participant "handle SearchFare::FareFound(brod.)"
+ ' participant "handle SearchFare::Reserved(brod.)"
+ ' end box
+ '/
+
+/'
  ' Web app triggers the service layer
  '/
 "SearchFareRoute" -> "handle FindFare" : <back:cadetblue>FindFare</back> \n{\n  search_fare_id: 123,\n  time: '2000-01-01T11:11:11.000Z',\n  request: {\n   "mow-led": {\n      departure: "MOW",\n      arrival: "LED",\n      gds: "wolfgang"\n    },\n    "led-mow": {\n      departure: "LED",\n      arrival: "MOW",\n      gds: "charter"\n    }\n  }\n}
+note left
+Order contains
+- Passenger information (Perhaps Identifier is enough?) (Passenger logic in passenger service)
+- Flight Information (Flight parts, PNR) (Or move flight parts to flight service?)
+end note
 
 /'
  ' Mark search fare process as started
@@ -43,29 +83,33 @@ end box
  ' Broadcast commands to GDS
  '/
 "handle InitiatedFindFareEvent" -> "handle Wolfgang::FindFare" : <back:cadetblue>Wolfgang::FindFare</back> \n{\n  search_fare_id: 123,\n  time: '2000-01-01T11:11:11.000Z',\n  processed_time: '2000-01-01T11:11:11.011Z'\n  request: {\n   "mow-led": {\n      departure: "MOW",\n      arrival: "LED",\n      gds: "wolfgang"\n    }\n }\n}
+
 "handle InitiatedFindFareEvent" -> "handle Charter::FindFare" : <back:cadetblue>Charter::FindFare</back> \n{\n  search_fare_id: 123,\n  time: '2000-01-01T11:11:11.000Z',\n  processed_time: '2000-01-01T11:11:11.011Z'\n  request: {\n   "led-mow": {\n      departure: "LED",\n      arrival: "MOW",\n      gds: "charter"\n    }\n }\n}
 
 
 "handle Wolfgang::FindFare" --> "handle Wolfgang::FareFound" : <back:cadetblue>Wolfgang::FareFound</back> \n{\n  search_fare_id: 123,\n  time: '2000-01-01T11:11:11.000Z',\n  processed_time: '2000-01-01T11:11:11.011Z'\n  request: {\n   "mow-led": {\n      departure: "MOW",\n      arrival: "LED",\n      gds: "wolfgang"\n    }\n }\n}
+
 "handle Charter::FindFare" --> "handle Charter::FareFound" : <back:cadetblue>Charter::FareFound</back> \n{\n  search_fare_id: 123,\n  time: '2000-01-01T11:11:11.000Z',\n  processed_time: '2000-01-01T11:11:11.011Z'\n  request: {\n   "led-mow": {\n      departure: "LED",\n      arrival: "MOW",\n      gds: "charter"\n    }\n }\n}
 
 /'
  ' Wrap custom GDS events into general fare found events
  '/
 "handle Wolfgang::FareFound" --> "handle FoundOneOfTheFares" : <back:cadetblue>FoundOneOfTheFares</back> \n{\n  search_fare_id: 123,\n  time: '2000-01-01T11:11:11.000Z',\n  processed_time: '2000-01-01T11:11:11.011Z'\n  request: {\n   "mow-led": {\n      departure: "MOW",\n      arrival: "LED",\n      gds: "wolfgang"\n    }\n }\n}
-"handle Charter::FareFound" --> "handle FoundOneOfTheFares" : <back:cadetblue>FoundOneOfTheFares</back> \n{\n  search_fare_id: 123,\n  time: '2000-01-01T11:11:11.000Z',\n  processed_time: '2000-01-01T11:11:11.011Z'\n  request: {\n   "led-mow": {\n      departure: "LED",\n      arrival: "MOW",\n      gds: "charter"\n    }\n }\n}
 
 /'
  ' This is to add additional information to user interface
  '/
-"handle Wolfgang::FareFound" --> "handle SearchFare::FoundOneOfTheFares" : <back:cadetblue>FoundOneOfTheFares</back> \n{\n  search_fare_id: 123,\n  time: '2000-01-01T11:11:11.000Z',\n  processed_time: '2000-01-01T11:11:11.011Z'\n  request: {\n   "mow-led": {\n      departure: "MOW",\n      arrival: "LED",\n      gds: "wolfgang"\n    }\n }\n}
-"handle Charter::FareFound" --> "handle SearchFare::FoundOneOfTheFares" : <back:cadetblue>FoundOneOfTheFares</back> \n{\n  search_fare_id: 123,\n  time: '2000-01-01T11:11:11.000Z',\n  processed_time: '2000-01-01T11:11:11.011Z'\n  request: {\n   "led-mow": {\n      departure: "LED",\n      arrival: "MOW",\n      gds: "charter"\n    }\n }\n}
+& "handle Wolfgang::FareFound" --> "handle SearchFare::FoundOneOfTheFares" : <back:cadetblue>FoundOneOfTheFares</back> \n{\n  search_fare_id: 123,\n  time: '2000-01-01T11:11:11.000Z',\n  processed_time: '2000-01-01T11:11:11.011Z'\n  request: {\n   "mow-led": {\n      departure: "MOW",\n      arrival: "LED",\n      gds: "wolfgang"\n    }\n }\n}
+
+
+"handle Charter::FareFound" --> "handle FoundOneOfTheFares" : <back:cadetblue>FoundOneOfTheFares</back> \n{\n  search_fare_id: 123,\n  time: '2000-01-01T11:11:11.000Z',\n  processed_time: '2000-01-01T11:11:11.011Z'\n  request: {\n   "led-mow": {\n      departure: "LED",\n      arrival: "MOW",\n      gds: "charter"\n    }\n }\n}
+& "handle Charter::FareFound" --> "handle SearchFare::FoundOneOfTheFares" : <back:cadetblue>FoundOneOfTheFares</back> \n{\n  search_fare_id: 123,\n  time: '2000-01-01T11:11:11.000Z',\n  processed_time: '2000-01-01T11:11:11.011Z'\n  request: {\n   "led-mow": {\n      departure: "LED",\n      arrival: "MOW",\n      gds: "charter"\n    }\n }\n}
 
 /'
  ' Woking with view component
  '/
 
 "handle FoundOneOfTheFares" --> "handle SearchFare::FareFound" : <back:cadetblue>FareFound</back> \n{\n  search_fare_id: 123,\n  time: '2000-01-01T11:11:11.000Z',\n  processed_time: '2000-01-01T11:11:11.011Z',\n  status: "completed",\n}
-"SearchFareRoute" -> "handle SearchFare::FareFound" : <back:lightgreen>Loop until view is ready</back>\nStatus should be set to `completed`
 
+"SearchFareRoute" -> "handle SearchFare::FareFound" : <back:lightgreen>Loop until view is ready</back>\nStatus should be set to `completed`
 @enduml
