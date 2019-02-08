@@ -53,10 +53,9 @@ module BookTicketComponent
       end
 
       handle OneOfTheTicketsBooked do |one_of_the_tickets_booked|
-        logger.info("Handle ONE_OF_THE_TICKETS_BOOKED book_ticket_id: #{book_ticket_id}")
-
         book_ticket_id = one_of_the_tickets_booked.book_ticket_id
         book_ticket, version = store.fetch(book_ticket_id, include: :version)
+        logger.info("Handle ONE_OF_THE_TICKETS_BOOKED book_ticket_id: #{book_ticket_id}")
 
         # Do not reissue TicketBooked final event.:shrug:
 
