@@ -69,7 +69,7 @@ module SearchFareComponent
         # Catch every FoundOneOfTheFares event.
         # If we already found all of the fares for current search_fare, then
         # we can issue our terminating event - FareFound.
-        return unless search_fare.fare_found?
+        return if !search_fare.fare_found? || search_fare.completed?
 
         logger.info("Every fare found. Event processed (Command: #{found_one_of_the_fares.message_type}, SearchFare ID: #{search_fare_id})")
         found = FareFound.new

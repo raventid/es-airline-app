@@ -20,5 +20,9 @@ module SearchFareComponent
       # Register fare found for particular entity.
       search_fare.register_fare_for(found_one_of_the_fares.part, found_one_of_the_fares.data[:prices])
     end
+
+    apply FareFound do |fare_found|
+      search_fare.completed = true
+    end
   end
 end

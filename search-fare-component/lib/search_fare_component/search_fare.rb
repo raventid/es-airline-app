@@ -15,6 +15,7 @@ module SearchFareComponent
 
     attribute :id, String
     attribute :flight_parts, Hash
+    attribute :completed
 
     # TODO Implement attributes
     # TODO Implement entity logic, predicates, mutations, calculations, etc
@@ -32,6 +33,8 @@ module SearchFareComponent
           received: false
         }
       end
+
+      self.completed = true
     end
 
     # Next step in state machine. Update the part we got information about.
@@ -48,6 +51,10 @@ module SearchFareComponent
       self.flight_parts.all? do |k,v|
         v[:received]
       end
+    end
+
+    def completed?
+      self.completed
     end
   end
 end
