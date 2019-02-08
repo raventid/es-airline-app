@@ -15,6 +15,7 @@ module BookTicketComponent
 
     attribute :id, String
     attribute :flight_parts, Hash
+    attribute :completed, Boolean
 
     # TODO Implement attributes
     # TODO Implement entity logic, predicates, mutations, calculations, etc
@@ -32,6 +33,8 @@ module BookTicketComponent
           received: false
         }
       end
+
+      self.completed = false
     end
 
     # Next step in state machine. Update the part we got information about.
@@ -45,6 +48,10 @@ module BookTicketComponent
       self.flight_parts.all? do |k,v|
         v[:received]
       end
+    end
+
+    def completed?
+      self.completed
     end
   end
 end

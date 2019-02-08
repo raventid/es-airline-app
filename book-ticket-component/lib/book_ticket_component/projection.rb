@@ -13,7 +13,12 @@ module BookTicketComponent
     end
 
     apply OneOfTheTicketsBooked do |one_of_the_tickets_booked|
+      logger.info("Apply OneOfTheTicketsBooked to projection #{one_of_the_tickets_booked.id}")
       book_ticket.register_ticket_for(one_of_the_tickets_booked.part, one_of_the_tickets_booked.data[:prices])
+    end
+
+    apply TicketBooked do |ticket_booked|
+      book_ticket.completed = true
     end
   end
 end

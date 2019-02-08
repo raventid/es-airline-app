@@ -53,19 +53,22 @@ module BookTicketComponent
       end
 
       handle OneOfTheTicketsBooked do |one_of_the_tickets_booked|
+        logger.info("Handle ONE_OF_THE_TICKETS_BOOKED book_ticket_id: #{book_ticket_id}")
+
         book_ticket_id = one_of_the_tickets_booked.book_ticket_id
         book_ticket, version = store.fetch(book_ticket_id, include: :version)
 
-        logger.info("Finalizing one_of_the_tickets_booked handler book_ticket: #{book_ticket_id}")
-
-        stream_name = stream_name(book_ticket_id)
+        # Do not reissue TicketBooked final event.:shrug:
 
         # Catch every FoundOneOfTheFares event.
         # If we already found all of the fares for current book_ticket, then
         # we can issue our terminating event - FareFound.
-        return unless book_ticket.every_ticket_booked?
+        return if !book_ticket.every_ticket_booked? || book_ticket.completed?
 
-        logger.info("Every fare found. Event processed (Command: #{one_of_the_tickets_booked.message_type}, SearchFare ID: #{book_ticket_id})")
+        stream_name = stream_name(book_ticket_id)
+
+        logger.info("Every ticket booked. Event processed (Command: #{one_of_the_tickets_booked.message_type}, BookTicket ID: #{book_ticket_id})")
+
         found = TicketBooked.new
         found.book_ticket_id = book_ticket_id
         found.time = clock.iso8601
