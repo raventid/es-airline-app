@@ -19,7 +19,7 @@ module OrderComponent
     # - fare_fault
     # - payment_failure
     #
-    # So, in some sense this field is a materialization of work by whole system.
+    # So, in some sense this field is a materialization of work by a whole system.
     attribute :status, String
 
     # Note: This class's methods should pertain only to its attributes

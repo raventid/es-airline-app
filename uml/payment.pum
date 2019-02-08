@@ -26,14 +26,15 @@ skinparam BoxPadding 10
 
 scale max 1415 width
 
-box "Controller"
-participant "profit?"
+box "External"
+participant "BestPlan"
 end box
 
 box "ProfitPlanner service"
 participant "handle PlanProfit"
 participant "handle PrepaidCardCalculated"
 participant "handle TerminalBestPriceFound"
+participant "handle DataReceived"
 end box
 
 box "Terminal service"
@@ -55,17 +56,18 @@ participant "api"
 end box
 
 
-"profit?" -> "handle PlanProfit"
+"BestPlan" -> "handle PlanProfit"
 
 "handle PlanProfit" -> "handle TerminalBestPrice" : TerminalBestPrice
-"handle TerminalBestPrice" --> "handle TerminalBestPriceFound" : TerminalBestPriceFound
+"handle TerminalBestPrice" --[#0000FF]> "handle TerminalBestPriceFound" : TerminalBestPriceFound
 
 "handle PlanProfit" -> "handle CalculatePrepaidCard" : CalculatePrepaidCard
 
 
 "handle CalculatePrepaidCard" -> "api" : FindPrepaidCards
-"api" --> "handle CalculatedPrepaidCard" : CalculatedPrepaidCard
+"api" --[#0000FF]> "handle CalculatedPrepaidCard" : CalculatedPrepaidCard
 
 
-"handle CalculatedPrepaidCard" --> "handle PrepaidCardCalculated" : PrepaidCardCalculated
+"handle CalculatedPrepaidCard" --[#0000FF]> "handle PrepaidCardCalculated" : PrepaidCardCalculated
+"handle DataReceived" --[#0000FF]> "BestPlan" : PlanCalculated
 @enduml
