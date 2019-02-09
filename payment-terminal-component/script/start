@@ -1,0 +1,9 @@
+#!/usr/bin/env ruby
+
+require_relative '../init'
+
+require 'component_host'
+
+ComponentHost.start('payment-terminal-component') do |host|
+  host.register(PaymentTerminalComponent::Start)
+end

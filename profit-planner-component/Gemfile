@@ -1,0 +1,5 @@
+source 'https://rubygems.org'
+
+gemspec name: 'profit_planner_component'
+
+gem 'evt-component_host'

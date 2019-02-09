@@ -1,0 +1,9 @@
+#!/usr/bin/env ruby
+
+require_relative '../init'
+
+require 'component_host'
+
+ComponentHost.start('profit-planner-component') do |host|
+  host.register(ProfitPlannerComponent::Start)
+end
