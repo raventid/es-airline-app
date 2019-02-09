@@ -1,0 +1,36 @@
+@startuml
+
+skinparam ParticipantPadding 20
+skinparam BoxPadding 10
+
+!pragma teoz true
+
+box "Web app"
+participant "write SelectFare"
+end box
+
+box "SearchFare service"
+participant "handle X"
+end box
+
+box "Fares service"
+participant "handle FareReceived"
+participant "handle SelectFare"
+end box
+
+box "ProfitPlanner service"
+participant "handle PlanProfit"
+participant "handle Fares::NewFareSelected"
+end box
+
+box "ANY SERVICE"
+participant "broadcast"
+end box
+
+"handle X" --[#0000FF]> "handle FareReceived" : OneOfTheFaresFound
+"handle FareReceived" -> "handle PlanProfit" : PlanProfit
+"handle PlanProfit" --[#0000FF]> "handle FareReceived" : ProfitPlanned
+"write SelectFare" -> "handle SelectFare" : SelectFare
+"handle SelectFare" --[#0000FF]> "broadcast" : NewFareSelected
+& "handle SelectFare" --[#0000FF]> "handle Fares::NewFareSelected" : NewFareSelected
+@enduml

@@ -1,0 +1,56 @@
+@startuml
+
+skinparam ParticipantPadding 20
+skinparam BoxPadding 10
+
+box "Web app"
+participant "write CreateOrder"
+participant "write FindFare"
+participant "write BookTicket"
+participant "write Pay"
+end box
+
+box "Order service"
+participant "handle Order::CreateOrder"
+participant "handle Order::FindFare"
+participant "handle Order::BookTicket"
+participant "handle Order::Pay"
+
+participant "handle CreateOrder::OrderCreated"
+participant "handle SearchFare::FareFound"
+participant "handle BookTicket::TicketBooked"
+participant "handle Pay::Paid"
+end box
+
+box "CreateOrder service"
+participant "handle CreateOrder::CreateOrder"
+end box
+
+box "SearchFare service"
+participant "handle SearchFare::FindFare"
+end box
+
+box "BookTicket service"
+participant "handle BookTicket::BookTicket"
+end box
+
+box "Pay service"
+participant "handle Pay::Pay"
+end box
+
+"write CreateOrder" -> "handle Order::CreateOrder" : Order::CreateOrder
+"write FindFare" -> "handle Order::FindFare" : Order::FindFare
+"write BookTicket" -> "handle Order::BookTicket" : Order::BookTicket
+"write Pay" -> "handle Order::Pay" : Order::Pay
+
+
+"handle Order::CreateOrder" -> "handle CreateOrder::CreateOrder" : CreateOrder::CreateOrder
+"handle Order::FindFare" -> "handle SearchFare::FindFare" : SearchFare::FindFare
+"handle Order::BookTicket" -> "handle BookTicket::BookTicket" : BookTicket::BookTicket
+"handle Order::Pay" -> "handle Pay::Pay" : Pay::Pay
+
+"handle CreateOrder::CreateOrder" --[#0000FF]> "handle CreateOrder::OrderCreated" : CreateOrder::OrderCreated
+"handle SearchFare::FindFare" --[#0000FF]> "handle SearchFare::FareFound" : SearchFare::FareFound
+"handle BookTicket::BookTicket" --[#0000FF]> "handle BookTicket::TicketBooked" : BookTicket::TicketBooked
+"handle Pay::Pay" --[#0000FF]> "handle Pay::Paid" : Pay::Paid
+@enduml

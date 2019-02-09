@@ -22,8 +22,17 @@ Iterate over services. run start.
 
 ## General overview of application
 
+### Overall basic schema of Search Fare
 ![alt text](https://github.com/raventid/es-airline-app/blob/master/uml/generated/basic_diagram.svg "general overview")
 
+### Overall overview of highest level Order service
+![alt text](https://github.com/raventid/es-airline-app/blob/master/uml/generated/order.svg "Order service")
+
+### Overall overview of Fare service
+![alt text](https://github.com/raventid/es-airline-app/blob/master/uml/generated/fares.svg "Fare Service")
+
+### Overall overview of Payment service
+![alt text](https://github.com/raventid/es-airline-app/blob/master/uml/generated/payment.svg "Payment service")
 
 Issues:
 
