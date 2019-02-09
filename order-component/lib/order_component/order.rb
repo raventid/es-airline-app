@@ -6,7 +6,6 @@ module OrderComponent
     include Schema::DataStructure
 
     attribute :id, String
-    attribute :pnr, String
 
     # This field acts as status(state) machine
     # Possible values are:
