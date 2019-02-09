@@ -7,10 +7,8 @@ module PaymentTerminalComponent
       include Messaging::Handle
       include Messaging::StreamName
       include Log::Dependency
-      # TODO include Messages::Commands once commands are implemented
-      # include Messages::Commands
-      # TODO include Messages::Events once commands are implemented"
-      # include Messages::Events
+      include Messages::Commands
+      include Messages::Events
 
       dependency :write, Messaging::Postgres::Write
       dependency :clock, Clock::UTC
@@ -24,26 +22,25 @@ module PaymentTerminalComponent
 
       category :payment_terminal
 
-      # TODO Implement command handler blocks"
-      # eg:
-      # handle DoSomething do |do_something|
-      #   payment_terminal_id = do_something.payment_terminal_id
+      handle FindBestPrice do |find_best_price|
+        payment_terminal_id = find_best_price.payment_terminal_id
 
-      #   payment_terminal, version = store.fetch(payment_terminal_id, include: :version)
+        payment_terminal, version = store.fetch(payment_terminal_id, include: :version)
 
-      #   if payment_terminal.something_happened?
-      #     logger.info(tag: :ignored) { "Command ignored (Command: #{do_something.message_type}, PaymentTerminal ID: #{payment_terminal_id})" }
-      #     return
-      #   end
+        logger.info("Command ignored (Command: #{find_best_price.message_type}, PaymentTerminal ID: #{payment_terminal_id})")
 
-      #   something_happened = SomethingHappened.follow(do_something)
+        best_price_found = BestPriceFound.follow(find_best_price)
 
-      #   something_happened.processed_time = clock.iso8601
+        best_price_found.gateway_name = "default_gateway"
 
-      #   stream_name = stream_name(payment_terminal_id)
+        best_price_found.profit = "100"
 
-      #   write.(something_happened, stream_name, expected_version: version)
-      # end
+        best_price_found.processed_time = clock.iso8601
+
+        stream_name = stream_name(payment_terminal_id)
+
+        write.(best_price_found, stream_name, expected_version: version)
+      end
     end
   end
 end

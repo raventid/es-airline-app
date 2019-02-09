@@ -1,8 +1,6 @@
 require 'eventide/postgres'
 
-# TODO Load command and event message files"
-# require 'payment_terminal_component/messages/commands/...'
-# require 'payment_terminal_component/messages/events/...'
+require 'payment_terminal_component/load'
 
 require 'payment_terminal_component/payment_terminal'
 require 'payment_terminal_component/projection'
