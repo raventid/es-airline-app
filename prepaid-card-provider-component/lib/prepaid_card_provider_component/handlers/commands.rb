@@ -7,10 +7,8 @@ module PrepaidCardProviderComponent
       include Messaging::Handle
       include Messaging::StreamName
       include Log::Dependency
-      # TODO include Messages::Commands once commands are implemented
-      # include Messages::Commands
-      # TODO include Messages::Events once commands are implemented"
-      # include Messages::Events
+      include Messages::Commands
+      include Messages::Events
 
       dependency :write, Messaging::Postgres::Write
       dependency :clock, Clock::UTC
@@ -24,26 +22,25 @@ module PrepaidCardProviderComponent
 
       category :prepaid_card_provider
 
-      # TODO Implement command handler blocks"
-      # eg:
-      # handle DoSomething do |do_something|
-      #   prepaid_card_provider_id = do_something.prepaid_card_provider_id
+      handle CalculatePrepaidCardProfit do |calculate_prepaid_card_profit|
+        logger.info("Handler received")
 
-      #   prepaid_card_provider, version = store.fetch(prepaid_card_provider_id, include: :version)
+        prepaid_card_provider_id = calculate_prepaid_card_profit.prepaid_card_provider_id
 
-      #   if prepaid_card_provider.something_happened?
-      #     logger.info(tag: :ignored) { "Command ignored (Command: #{do_something.message_type}, PrepaidCardProvider ID: #{prepaid_card_provider_id})" }
-      #     return
-      #   end
+        prepaid_card_provider, version = store.fetch(prepaid_card_provider_id, include: :version)
 
-      #   something_happened = SomethingHappened.follow(do_something)
+        profit_calculated = PrepaidCardProfitCalculated.follow(calculate_prepaid_card_profit)
 
-      #   something_happened.processed_time = clock.iso8601
+        profit_calculated.amount = "100"
 
-      #   stream_name = stream_name(prepaid_card_provider_id)
+        profit_calculated.currency_code = "EUR"
 
-      #   write.(something_happened, stream_name, expected_version: version)
-      # end
+        profit_calculated.processed_time = clock.iso8601
+
+        stream_name = stream_name(prepaid_card_provider_id)
+
+        write.(profit_calculated, stream_name, expected_version: version)
+      end
     end
   end
 end
