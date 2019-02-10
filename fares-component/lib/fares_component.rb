@@ -1,4 +1,6 @@
 require 'eventide/postgres'
+require 'prepaid_card_provider/client'
+require 'payment_terminal/client'
 
 # TODO Load command and event message files"
 # require 'fares_component/messages/commands/...'
