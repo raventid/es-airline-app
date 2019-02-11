@@ -3,3 +3,6 @@ source 'https://rubygems.org'
 gemspec name: 'profit_planner_component'
 
 gem 'evt-component_host'
+
+gem 'prepaid_card_provider-client', path: '../prepaid-card-provider-component'
+gem 'payment_terminal-client', path: '../payment-terminal-component'

@@ -1,8 +1,7 @@
 require 'eventide/postgres'
 
-# TODO Load command and event message files"
-# require 'profit_planner_component/messages/commands/...'
-# require 'profit_planner_component/messages/events/...'
+require 'prepaid_card_provider/client'
+require 'payment_terminal/client'
 
 require 'profit_planner_component/profit_planner'
 require 'profit_planner_component/projection'
